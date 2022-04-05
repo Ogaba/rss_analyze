@@ -19,7 +19,7 @@ f_levenshtein () {
    echo "Traitement de $_FIC en cours"
    cat $_FIC | while read _LINE; do
     IFS=" "
-    _LVS=`../levenshtein_s.o "$_LINE"`
+    _LVS=`levenshtein_s.o "$_LINE"`
     echo "${_LVS}" >> "${_FIC_FREQ}"
    done
    cat "${_FIC_FREQ}" | sort -g | uniq -c | sponge "${_FIC_FREQ}"
