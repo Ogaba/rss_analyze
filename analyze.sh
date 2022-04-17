@@ -4,8 +4,8 @@
 #
 # Author...... : Olivier Gabathuler
 # Created..... : 2022-01-03 OGA V1.0.0
-# Modified.... : 
-# Notes....... :
+# Modified.... : 2022-04-17 OGA V1.0.1
+# Notes....... : inspired by https://commons.wikimedia.org/wiki/File:Graphique_Zipf_pour_Ulysses.png
 #
 # Miscellaneous.
 # --------------
@@ -13,10 +13,8 @@
 # - Exit codes EXIT_xxxx are for internal use (see below).
 #
 #**************************************************************************h *#
-# Main
-
 # Version
-VERSION=1.0.0
+VERSION=1.0.1
 
 # Check params
 [ $# -eq 0 ] && exit
@@ -28,20 +26,16 @@ _FILE=`basename $_1 | cut -d'.' -f1`
 cat ${_1}				|\
 iconv -f UTF-8 -t ASCII//TRANSLIT	|\
 tr ' ' '\n'				|\
-tr -d '…»«,;.():?!\*'			|\
+tr -d "<>%‘…»«,;.():?!\*'\""		|\
 tr '[A-Z]' '[a-z]'			|\
-tr ' ' '\n'				|\
 sed '/^$/d'				|\
+sed '/^-$/d'				|\
 sed '/^[a-z]$/d'			|\
-sed '/^[0-9]+/d'			|\
+sed '/^[0-9]*$/d'			|\
 sed 's/^ //'				|\
 sort					|\
 uniq -c					|\
 sort -r -g -k1				> ${_DIR}/${_FILE}.words
 
->${_DIR}/${_FILE}.words.gp
-_I=1
-awk '{ print $1 }' ${_DIR}/${_FILE}.words | while read _LINE; do
-	echo "$_I $_LINE" >> ${_DIR}/${_FILE}.words.gp
-	_I=$(($_I + 1))
-done
+# Ajout du rang en abscisse
+awk '{ print $1 }' ${_DIR}/${_FILE}.words | pr -n -t > ${_DIR}/${_FILE}.words.gp

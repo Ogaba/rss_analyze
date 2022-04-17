@@ -28,3 +28,6 @@ done
 ls data/*.gp | while read _FIC; do
 	./gnuplot_freq.sh "$_FIC"
 done
+
+# For each .txt file, generate levenshtein distance between words of each text line
+./levenshtein.sh

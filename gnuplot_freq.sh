@@ -49,7 +49,7 @@ echo "set ytics (\"0\" 0.1, \"1\" 1, \"10\" 10, \"100\" 100, \"1000\" 1000, \"10
 #echo "set samples 10" >> $_TMP
 echo -n "plot " >> $_TMP
 echo " adding ${_DATA} ..."
-f_plot_BOXES3 "$_DATA" 1 2 8 3
+f_plot_LP4 "$_DATA" 1 2 8 3
 echo " generating ${_FIC} ..."
 printf "\nEOF" >> $_TMP
 chmod u+x $_TMP
